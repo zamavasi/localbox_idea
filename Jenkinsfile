@@ -58,7 +58,7 @@ script {
 
 echo "${repoUrl}"
 echo "${commitSha}"
-echo "$vasiiii"
+echo "vasiiii"
 
 step([
     $class: "GitHubCommitStatusSetter",
