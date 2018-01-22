@@ -66,64 +66,11 @@ step([
     contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/checkout"],
     reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],   //"https://github.com/zarmrocom/testPipeline"], //"git@github.com:zarmrocom/testPipeline"],
     commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
+    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUdsdsaaCCESS"]] ]
 ])
 sh "sleep 20"
-sh "ffff"
-
-
-withCredentials([[
-    $class: 'SSHUserPrivateKeyBinding',
-    credentialsId: "${GitHubSshKey}",
-    usernameVariable: 'GITHUB_USER',
-    keyFileVariable: 'GITHUB_KEY']]) {
-        script {
-            env.GIT_SSH_COMMAND = "ssh -i ${GITHUB_KEY} -l ${GITHUB_USER} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-        }
-
-
-
-  step([
-      $class: "GitHubCommitStatusSetter",
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "vasii"],
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/zarmrocom/testPipeline"], //"git@github.com:zarmrocom/testPipeline"],
-      commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUCCaaESS"]] ]
-  ])
-//  error "Pipeline aborted due to quality gate failure"
-sh "sleep 20"
-step([
-    $class: "GitHubCommitStatusSetter",
-   contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "nextone!"],
-    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-  //  commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-    statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "wait what???", state: "PENDING"]] ]
-])
-
-sh "ffff"
-
-    }
-
-
-
-                //setBuildStatus ("${context}", 'Checking Sonarqube quality gate', 'PENDING')
-                // TODO add this to run only when PR for master branch target
-                inputVersionBumper()
-                // Needed due to JENKINS-43563 - Git plugin does not set user in pipeline
-                sh "git config user.name ${GitServiceUserName}"
-                sh "git config user.email ${GitServiceUserEmail}"
-
-                echo "Building step for branch: ${JOB_BASE_NAME} #${BUILD_NUMBER}"
-                // Necessary to update execute permissions to binaries due to JENKINS-26659
-                sh 'chmod +x ./gradlew && ./gradlew --info clean assemble'
-                stash name: "${JOB_BASE_NAME}", useDefaultExcludes:false
-                script {
-                    repoDetails = getRepoSlug()
-                    nextReleaseVersion = getProjectVersion(VersionTrackingFilename)
-                }
+//sh "ffff"
             }
             post {
                 always {
