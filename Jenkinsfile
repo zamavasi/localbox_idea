@@ -90,7 +90,7 @@ withCredentials([[
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/zarmrocom/testPipeline"], //"git@github.com:zarmrocom/testPipeline"],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUCCESS"]] ]
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUCCaaESS"]] ]
   ])
 //  error "Pipeline aborted due to quality gate failure"
 sh "sleep 20"
