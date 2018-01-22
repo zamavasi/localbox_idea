@@ -173,12 +173,30 @@ pipeline {
 
 
 
+
+
 script {
   sh "git config --get remote.origin.url > .git/remote-url"
   repoUrl = readFile(".git/remote-url").trim()
   sh "git rev-parse HEAD > .git/current-commit"
   commitSha = readFile(".git/current-commit").trim()
 }
+
+echo "${repoUrl}"
+echo "${commitSha}"
+echo "$vasiiii"
+
+step([
+    $class: "GitHubCommitStatusSetter",
+    contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "vasii"],
+    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],   //"https://github.com/zarmrocom/testPipeline"], //"git@github.com:zarmrocom/testPipeline"],
+    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+    errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
+    statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUCCESS"]] ]
+])
+
+sh "ffff"
+
 
 withCredentials([[
     $class: 'SSHUserPrivateKeyBinding',
