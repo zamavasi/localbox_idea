@@ -59,6 +59,7 @@ script {
 echo "${repoUrl}"
 echo "${commitSha}"
 echo "vasiiii"
+sh "sleep 20"
 
 step([
     $class: "GitHubCommitStatusSetter",
