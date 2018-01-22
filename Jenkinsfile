@@ -4,6 +4,8 @@
 def releasesWorkspaceFolder = "releases"
 def snapshotWorkspaceFolder = "snapshots"
 
+def BuildAgentLabel = "test"
+
 // Shared Library load //
 @Library('zamro_shared_library') _
 
@@ -36,12 +38,6 @@ pipeline {
                 label BuildAgentLabel
             }
             steps {
-                script {
-                    if (params.CLEAN_BUILD == true) {
-                        echo "Running clean build"
-                        deleteDir()
-                    }
-                }
                 // Customize checkout step in a shared library as the default checkout does not allow custom configuration such as checkout to local branch instead of commit hash
                 checkout ([
                     $class: 'GitSCM',
