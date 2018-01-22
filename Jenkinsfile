@@ -70,7 +70,7 @@ step([
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "ERROR"]] ]
 ])
 sh "sleep 5"
-//sh "ffff"
+sh "ffff"
             }
             post {
                 always {
