@@ -69,7 +69,7 @@ step([
     errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUdsdsaaCCESS"]] ]
 ])
-sh "sleep 20"
+sh "sleep 5"
 //sh "ffff"
             }
             post {
