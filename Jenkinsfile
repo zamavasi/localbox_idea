@@ -59,7 +59,7 @@ script {
 echo "${repoUrl}"
 echo "${commitSha}"
 echo "vasiiii"
-sh "sleep 20"
+
 
 step([
     $class: "GitHubCommitStatusSetter",
@@ -69,7 +69,7 @@ step([
     errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "FAILURE"]], // note this needs a check result and throw error else it continues see my tips on scripted error handling
     statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: "message", state: "SUCCESS"]] ]
 ])
-
+sh "sleep 20"
 sh "ffff"
 
 
